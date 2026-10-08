@@ -9,31 +9,31 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import type { NotificationFilter } from "@/lib/types";
 
-// asText / inputType 是本文件内的取值辅助（与控件渲染强相关），不放在 channel-fields。
+// asText / inputType are value helpers local to this file (tightly tied to control rendering), so they are not in channel-fields.
 import { type FieldDef, type FieldKind, SEVERITY_OPTIONS } from "./channel-fields";
 
-// asText 把任意配置值渲染成输入框可用的字符串。
-// config 来自 JSON，值可能是 string / number / boolean / array / null，
-// 这里只关心「能不能塞进文本框」，具体序列化由 buildConfig 负责。
+// asText renders any config value as a string usable in an input.
+// config comes from JSON, so a value may be string / number / boolean / array / null;
+// here we only care whether it "fits in a text box"; buildConfig handles the actual serialisation.
 function asText(v: unknown): string {
   if (typeof v === "string") return v;
   if (v === null || v === undefined) return "";
   return String(v);
 }
 
-// inputType 把字段类型映射到 input 的 type 属性。
+// inputType maps a field kind to the input's type attribute.
 function inputType(kind: FieldKind): "text" | "password" | "number" {
   if (kind === "password") return "password";
   if (kind === "number") return "number";
   return "text";
 }
 
-// ConfigField 按字段定义渲染对应的控件。
+// ConfigField renders the control that matches a field definition.
 //
-// 掩码字段的处理是这里唯一的讲究：输入框**不显示**掩码值本身，只显示一行
-// 「已保存」提示。这样界面上就只有一个规则——框里有字就是用户填的，
-// 空框就是空值。若把 "__masked__:…abc123" 塞进输入框，用户会以为那是要自己
-// 删掉的占位文本，反而更容易误清凭据。
+// Handling masked fields is the one subtlety here: the input does **not** show the masked value itself, only a one-line
+// "Saved" hint. That leaves the UI with a single rule: text in the box is what the user typed,
+// and an empty box is an empty value. Putting "__masked__:…abc123" in the input would make users think it is placeholder text
+// they should delete themselves, which makes wiping a credential by mistake more likely.
 export function ConfigField({
   def,
   value,
@@ -47,7 +47,7 @@ export function ConfigField({
 }) {
   const id = `n-cfg-${def.key}`;
   const raw = asText(value);
-  // 后端回显的掩码值：形如 "__masked__:…abc123"，尾部是原值的可辨识片段。
+  // Masked value echoed back by the backend: looks like "__masked__:…abc123", where the tail is a recognisable fragment of the original value.
   const masked = isSecret && raw.startsWith("__masked__");
   const maskedTail = masked ? (raw.split("…")[1] ?? "") : "";
 
@@ -56,7 +56,7 @@ export function ConfigField({
       <div className="flex items-center gap-2 text-sm">
         <Switch checked={value === true} onCheckedChange={onChange} aria-label={def.label} />
         {def.label}
-        {def.help && <span className="text-muted-foreground">（{def.help}）</span>}
+        {def.help && <span className="text-muted-foreground">({def.help})</span>}
       </div>
     );
   }
@@ -81,8 +81,8 @@ export function ConfigField({
     );
   }
 
-  // 控件按字段类型分派。用 if 链而不是嵌套三元，是因为这里要区分四种控件，
-  // 三层三元读起来已经要停下来数括号了。
+  // Dispatch the control by field kind. An if chain rather than nested ternaries, because there are four controls to tell apart
+  // and three levels of ternaries already make you stop and count brackets.
   function control() {
     if (def.kind === "textarea" || def.kind === "kv") {
       return (
@@ -120,7 +120,7 @@ export function ConfigField({
   const hint = masked ? (
     <p className="text-muted-foreground flex items-center gap-1 text-xs">
       <CheckIcon className="size-3" />
-      已保存{maskedTail ? `（尾号 ${maskedTail}）` : ""} · 填入新值即覆盖，清空则删除该项
+      Saved{maskedTail ? ` (ending ${maskedTail})` : ""} · enter a new value to overwrite it, clear it to delete this entry
     </p>
   ) : (
     def.help && <p className="text-muted-foreground text-xs">{def.help}</p>
@@ -135,19 +135,19 @@ export function ConfigField({
   );
 }
 
-// FilterSummary 把过滤条件摘要成一行，让卡片不用展开就能看出这个渠道推什么。
+// FilterSummary condenses the filter into one line so the card shows what this channel pushes without being expanded.
 export function FilterSummary({ filter }: { filter: NotificationFilter }) {
   const parts: string[] = [];
   if (filter.min_severity) {
     parts.push(SEVERITY_OPTIONS.find((o) => o.value === filter.min_severity)?.label ?? filter.min_severity);
   }
-  if (filter.vulnclass_include?.length) parts.push(`类型含 ${filter.vulnclass_include.length} 词`);
-  if (filter.vulnclass_exclude?.length) parts.push(`排除 ${filter.vulnclass_exclude.length} 词`);
-  if (filter.task_ids?.length) parts.push(`${filter.task_ids.length} 个任务`);
-  if (filter.asset_ids?.length) parts.push(`${filter.asset_ids.length} 个资产`);
-  if (filter.on_status_change) parts.push("含状态变更");
+  if (filter.vulnclass_include?.length) parts.push(`Type keywords: ${filter.vulnclass_include.length}`);
+  if (filter.vulnclass_exclude?.length) parts.push(`Excluded keywords: ${filter.vulnclass_exclude.length}`);
+  if (filter.task_ids?.length) parts.push(`Tasks: ${filter.task_ids.length}`);
+  if (filter.asset_ids?.length) parts.push(`Assets: ${filter.asset_ids.length}`);
+  if (filter.on_status_change) parts.push("Incl. status changes");
   if (parts.length === 0) {
-    return <p className="text-muted-foreground text-sm">全部漏洞</p>;
+    return <p className="text-muted-foreground text-sm">All vulnerabilities</p>;
   }
   return <p className="text-muted-foreground text-sm">{parts.join(" · ")}</p>;
 }

