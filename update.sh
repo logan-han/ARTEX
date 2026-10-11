@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# ARTEX update script: ① Docker update (pull the new image and recreate)  ② Local build update (rebuild the binary)
+# ARTEX update script: ① Docker update (pull or rebuild the image and recreate)  ② Local build update (rebuild the binary)
 # Counterpart to install.sh: install handles the first deployment, update upgrades to a new version.
 # No manual DB migration is needed: artex re-runs schema.sql idempotently on every start (including ADD COLUMN/CREATE
 # INDEX IF NOT EXISTS), so "a restart is a migration". Data (the pgdata volume, ./data, ./skills) is not affected.
@@ -42,7 +42,10 @@ update_docker(){
   # bandwidth, and a major version change carries compatibility risk). artex declares depends_on postgres, so running
   # up with the service name starts pg automatically if it is not running, and leaves it as is (not recreated) if it is.
   info "Pulling the new image (artex only)..."
-  docker compose pull artex
+  if ! docker compose pull artex; then
+    warn "No published artex image to pull, rebuilding it from this checkout instead (takes a few minutes)..."
+    docker compose build --pull artex
+  fi
   info "Recreating and starting (artex migrates the schema automatically on restart)..."
   docker compose up -d artex
   ok "Update complete → http://localhost:8787"
@@ -72,7 +75,7 @@ update_local(){
 
 echo "=============================="
 echo "  ARTEX updater"
-echo "  1) Docker update (pull the new image and recreate)"
+echo "  1) Docker update (pull or rebuild the image and recreate)"
 echo "  2) Local build update (Go rebuild)"
 echo "=============================="
 case "$(ask 'Choose' 1)" in

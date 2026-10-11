@@ -13,8 +13,9 @@ import (
 // Repo is the release source. It is hard-coded rather than made configurable: a
 // configurable update source would hand anyone who can change the settings a remote
 // code execution channel, and a penetration testing platform cannot leave that door
-// open.
-const Repo = "Autumn-27/artex"
+// open. It points at this English fork: the original Autumn-27/artex repository is
+// no longer public, and its releases ship the Chinese build.
+const Repo = "logan-han/ARTEX"
 
 // latestURL is GitHub's "latest release" endpoint. It skips prereleases and drafts
 // automatically.

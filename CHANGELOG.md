@@ -4,6 +4,13 @@ All notable changes to this project are recorded in this file. The format is bas
 
 ## [Unreleased]
 
+### Deployment and updates
+
+#### Changed
+
+- **This fork no longer depends on the original repository**, which is no longer public: the in-app updater checks this fork's Releases, the release workflow pushes the image to `ghcr.io/logan-han/artex` (with the workflow's own token) instead of Docker Hub, and the `norma` SDK v0.4.3 is vendored unmodified in `third_party/norma`.
+- **The Docker image builds from source**: the `Dockerfile` now compiles the frontend and the binary itself, so `docker compose up -d` works from a plain checkout. `install.sh` and `update.sh` build the image locally when there is no published image to pull.
+
 ## [0.3.15] - 2026-10-07
 
 ### Intercept

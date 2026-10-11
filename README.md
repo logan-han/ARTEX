@@ -7,7 +7,7 @@ AI autonomous penetration testing system (Go backend + Next.js frontend)
 </div>
 
 > [!NOTE]
-> **English translation.** This fork is an English translation of [Autumn-27/ARTEX](https://github.com/Autumn-27/ARTEX) v0.3.15, covering the UI, agent prompts, skills, code comments and docs (translated 8 October 2026). Prebuilt releases, the `autumn27/artex` Docker image and the in-app updater still come from upstream and ship the Chinese build, so [build from source](#option-4-build-a-single-binary-from-source) to run the English version.
+> **English translation.** This fork is an English translation of ARTEX v0.3.15 by [Autumn-27](https://github.com/Autumn-27), covering the UI, agent prompts, skills, code comments and docs (translated 8 October 2026). The original repository is no longer public, so this fork stands on its own: releases, the `ghcr.io/logan-han/artex` Docker image and the in-app updater all come from this repository, and the `norma` SDK is vendored in [`third_party/norma`](third_party/norma). Until a release is published here, the Docker install builds the image from source.
 
 ---
 
@@ -85,9 +85,11 @@ Once installed, open **http://localhost:8787** (on your first visit, `/setup` as
 git clone https://github.com/logan-han/ARTEX.git
 cd ARTEX
 cp .env.example .env          # set POSTGRES_PASSWORD, optionally ANTHROPIC_API_KEY
-docker compose up -d          # pulls the autumn27/artex image + postgres
+docker compose up -d          # pulls (or builds) the artex image + postgres
 # → http://localhost:8787
 ```
+
+If `ghcr.io/logan-han/artex` hasn't been published yet, Compose builds the image from your checkout with the `Dockerfile` (a few minutes the first time). Use `docker compose up -d --build` to always build from your checkout.
 
 The image ships common tools (ripgrep/curl/vim/npm/nmap...); `./skills` and `./data` persist as bind mounts.
 
@@ -98,7 +100,7 @@ Legacy SSE servers usually open the event stream with `GET /sse` and then accept
 
 ### Option 3: download a prebuilt binary (Releases)
 
-Download the zip for your platform from [Releases](https://github.com/Autumn-27/ARTEX/releases). It unpacks to `artex` + `start.sh` (`start.bat` on Windows) + `skills/` + `config.example.json`:
+Download the zip for your platform from [Releases](https://github.com/logan-han/ARTEX/releases). It unpacks to `artex` + `start.sh` (`start.bat` on Windows) + `skills/` + `config.example.json`:
 
 ```bash
 cp config.example.json config.json   # fill in the database connection
@@ -114,7 +116,7 @@ cp config.example.json config.json   # fill in the database connection
 # 1) Static export of the frontend
 cd web && npm ci && npm run build:static && cd ..
 # 2) Copy it into the embed directory
-cp -r web/out server/webui/dist
+rm -rf server/webui/dist && cp -r web/out server/webui/dist
 # 3) Build (-tags embedui is what embeds the frontend)
 CGO_ENABLED=0 go build -tags embedui -o artex ./cmd/artex
 ./start.sh
@@ -135,6 +137,8 @@ UPX self-extracting binaries can be incompatible with some Linux kernels, virtua
 ARTEX_TARGETS=linux/amd64,windows/amd64 ./build.sh --release
 ./build.sh --target linux/amd64 --upx
 ```
+
+Pushing a `v*` tag runs `.github/workflows/release.yml`, which publishes these zips plus `SHA256SUMS` to this repository's Releases (where the in-app updater looks) and pushes the multi-arch image to `ghcr.io/logan-han/artex`.
 
 ---
 
@@ -164,7 +168,7 @@ cd ARTEX
 
 The script optionally runs `git pull` to fetch the latest code, then asks you to choose **① Docker update** or **② Local build update** (matching `install.sh`):
 
-- **① Docker**: optionally pick a target image tag (press Enter to keep `ARTEX_TAG` from `.env`, default `latest`) → `docker compose pull` → `docker compose up -d` (restarting on the new image migrates automatically).
+- **① Docker**: optionally pick a target image tag (press Enter to keep `ARTEX_TAG` from `.env`, default `latest`) → `docker compose pull` (or `docker compose build` from your checkout when no image is published) → `docker compose up -d` (restarting on the new image migrates automatically).
 - **② Local**: rebuilds the static frontend → recompiles `./artex` (restart the process afterwards to apply it).
 
 ### Option 3: Docker Compose (manual)
@@ -173,14 +177,14 @@ The script optionally runs `git pull` to fetch the latest code, then asks you to
 cd ARTEX
 git pull                       # update compose / scripts (optional)
 # Pin a version: set ARTEX_TAG=v0.2.0 in .env; otherwise latest is used
-docker compose pull artex
+docker compose pull artex      # or, with no published image: docker compose build artex
 docker compose up -d artex     # restart on the new image → schema migrates automatically
 docker image prune -f          # clean up old images (optional)
 ```
 
 ### Option 4: prebuilt binaries (Releases)
 
-Download the new zip from [Releases](https://github.com/Autumn-27/ARTEX/releases), stop the old process, overwrite `artex` and `skills/` (keep your `config.json` and `data/`), then restart:
+Download the new zip from [Releases](https://github.com/logan-han/ARTEX/releases), stop the old process, overwrite `artex` and `skills/` (keep your `config.json` and `data/`), then restart:
 
 ```bash
 cp -r <unzipped-dir>/skills ./ && cp <unzipped-dir>/artex ./
@@ -192,7 +196,7 @@ cp -r <unzipped-dir>/skills ./ && cp <unzipped-dir>/artex ./
 ```bash
 git pull
 cd web && npm ci && npm run build:static && cd ..
-cp -r web/out server/webui/dist
+rm -rf server/webui/dist && cp -r web/out server/webui/dist
 CGO_ENABLED=0 go build -tags embedui -o artex ./cmd/artex
 # restart ./start.sh
 ```
@@ -280,7 +284,7 @@ In this version, retest history is viewed through the vulnerability details and 
 
 ## Architecture
 
-ARTEX is an **autonomous penetration testing system driven by multiple LLM agents**: a monolithic Go backend (with the Next.js frontend embedded) + PostgreSQL, with agent capabilities provided by the [`norma`](https://github.com/Autumn-27/norma) SDK (`agentcore` / `tool` / `permission` / `harness` / `memory` / `transcript`). At its core is a **dual-graph architecture**, plus two autonomy mechanisms built around it: **trace-level information exchange between workers**, and a **todo list the planner shares across rounds to keep attack chains stable**.
+ARTEX is an **autonomous penetration testing system driven by multiple LLM agents**: a monolithic Go backend (with the Next.js frontend embedded) + PostgreSQL, with agent capabilities provided by the [`norma`](https://github.com/Autumn-27/norma) SDK (vendored in [`third_party/norma`](third_party/norma); `agentcore` / `tool` / `permission` / `harness` / `memory` / `transcript`). At its core is a **dual-graph architecture**, plus two autonomy mechanisms built around it: **trace-level information exchange between workers**, and a **todo list the planner shares across rounds to keep attack chains stable**.
 
 ### Layers
 

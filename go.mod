@@ -60,3 +60,8 @@ require (
 	modernc.org/mathutil v1.7.1 // indirect
 	modernc.org/memory v1.11.0 // indirect
 )
+
+// norma comes from the original ARTEX author, whose ARTEX repository is no longer public.
+// An unmodified copy of v0.4.3 lives in third_party/norma so builds do not depend on
+// that repository (or the Go module mirror) staying available.
+replace github.com/Autumn-27/norma => ./third_party/norma

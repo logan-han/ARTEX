@@ -15,7 +15,10 @@ services:
     restart: unless-stopped
 
   artex:
-    image: autumn27/artex:${ARTEX_TAG:-latest}
+    # Published by this fork's release workflow. When it can't be pulled (nothing published yet, or no access),
+    # `docker compose up` builds it from this checkout with the Dockerfile instead.
+    image: ghcr.io/logan-han/artex:${ARTEX_TAG:-latest}
+    build: .
     depends_on:
       postgres:
         condition: service_healthy

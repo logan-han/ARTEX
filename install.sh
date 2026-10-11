@@ -45,8 +45,13 @@ install_docker(){
   else
     info "Using the existing .env"
   fi
-  info "Pulling images and starting..."
-  docker compose pull || true
+  info "Pulling images..."
+  docker compose pull postgres || true
+  if ! docker compose pull artex; then
+    warn "No published artex image to pull, building it from this checkout instead (takes a few minutes)..."
+    docker compose build artex
+  fi
+  info "Starting..."
   docker compose up -d
   ok "Started → http://localhost:8787"
   info "View logs: docker compose logs -f artex"
